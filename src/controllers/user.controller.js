@@ -392,7 +392,7 @@ const deleteFromCloudinary = async (url) => {
         } else{
             console.log("Old avatar delete from cloudinary: ", result)
         }
-    })
+    }) 
 }
 
 
