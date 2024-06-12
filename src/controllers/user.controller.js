@@ -339,20 +339,61 @@ const updateUserAvatar = asyncHandler(async(req,res) => {
         throw new ApiError(400, "Error while uploading on avatar")
     }
 
-    const user = await User.findByIdAndUpdate(
-        req.user?._id,
-        {
-            $set: {
-                avatar: avatar.url
-            }
-        },
-        {new: true}
-    ).select("-password")
+    // TODO: delete old image 
+
+
+    // const user = await User.findByIdAndUpdate(
+    //     req.user?._id,
+    //     {
+    //         $set: {
+    //             avatar: avatar.url
+    //         }
+    //     },
+    //     {new: true}
+    // ).select("-password")
+
+    // Retrieve the user to get the old avatar URL
+    const user = await User.findById(req.user?._id);
+
+    if(!user) {
+        throw new ApiError(404, "User not found");
+    } 
+
+    const oldAvatarUrl = user.avatar;
+
+    // Update the user's avatar with the new URL
+    user.avatar = avatar.url;
+    await user.save();
+
+    // TODO: Delete old image from Cloudinary
+    if (oldAvatarUrl) {
+        await deleteFromCloudinary(oldAvatarUrl);
+    }
+
+    // Return the updated user, excluding the password
+    const updatedUser = await User.findById(req.user?._id).select("-password");
+    
 
     return res
     .status(200)
-    .json(new ApiResponse(200, user, "Avatar image updated successfuly"))
+    // .json(new ApiResponse(200, user, "Avatar image updated successfuly"))
+    .json(new ApiResponse(200, updatedUser, "Avatar image updated succesfully"));
 })
+
+// Helper function to delete image from clodianary
+const deleteFromCloudinary = async (url) => {
+    // extract the public ID from the url
+    const publicId = url.split('/').pop().split('.')[0];
+
+    // call cloudinary destroy method to delte the image
+    await deleteFromCloudinary.uploader.destroy(publicId, function(error, result){
+        if(error){
+            console.error("Error deleting old avatar form cloudinary: ", error)
+        } else{
+            console.log("Old avatar delete from cloudinary: ", result)
+        }
+    })
+}
 
 
 const updateUserCoverImage = asyncHandler(async(req,res) =>{
