@@ -15,7 +15,10 @@ const getUserPlaylists = asyncHandler(async (req, res) => {
     //TODO: get user playlists
 })
 
-
+const getPlaylistById = asyncHandler(async (req, res) => {
+    const {playlistId} = req.params
+    //TODO: get playlist by id
+})
 
 
 export {
