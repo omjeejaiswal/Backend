@@ -15,6 +15,10 @@ const getUserTweets = asyncHandler(async (req, res) => {
 })
 
 
+const updateTweet = asyncHandler(async (req, res) => {
+    //TODO: update tweet
+})
+
 
 
 export {
