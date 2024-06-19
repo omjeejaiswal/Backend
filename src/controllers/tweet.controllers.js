@@ -19,7 +19,9 @@ const updateTweet = asyncHandler(async (req, res) => {
     //TODO: update tweet
 })
 
-
+const deleteTweet = asyncHandler(async (req, res) => {
+    //TODO: delete tweet
+})
 
 export {
     createTweet,
