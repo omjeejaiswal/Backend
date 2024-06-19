@@ -30,6 +30,11 @@ const removeVideoFromPlaylist = asyncHandler(async (req, res) => {
 
 })
 
+const deletePlaylist = asyncHandler(async (req, res) => {
+    const {playlistId} = req.params
+    // TODO: delete playlist
+})
+
 
 export {
     createPlaylist,
