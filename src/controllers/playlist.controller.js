@@ -20,6 +20,10 @@ const getPlaylistById = asyncHandler(async (req, res) => {
     //TODO: get playlist by id
 })
 
+const addVideoToPlaylist = asyncHandler(async (req, res) => {
+    const {playlistId, videoId} = req.params
+})
+
 
 export {
     createPlaylist,
