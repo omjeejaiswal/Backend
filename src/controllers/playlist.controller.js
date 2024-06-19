@@ -35,6 +35,11 @@ const deletePlaylist = asyncHandler(async (req, res) => {
     // TODO: delete playlist
 })
 
+const updatePlaylist = asyncHandler(async (req, res) => {
+    const {playlistId} = req.params
+    const {name, description} = req.body
+    //TODO: update playlist
+})
 
 export {
     createPlaylist,
